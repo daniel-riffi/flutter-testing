@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_app_bar/gradient_app_bar.dart';
+import 'package:testing/car.dart';
+import 'car_card.dart';
 import 'todo.dart';
 import 'todo_card.dart';
 
@@ -9,6 +11,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   List<ToDo> toDos = [
     ToDo(author: 'Daniel', title: 'Hausübung'),
     ToDo(author: 'Matthias', title: 'Müll'),
@@ -22,8 +25,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  List data = [];
+  List cars = [];
+
   @override
   Widget build(BuildContext context) {
+
+    data = ModalRoute.of(context).settings.arguments;
+    cars = data.map((car) => Car(id: car['id'], brandAndName: car['brandAndName'], horsePower: car['horsePower'])).toList();
+
     return Scaffold(
       // appBar: GradientAppBar(
       //   title: Text('ToDo'),
@@ -53,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: toDos.map((toDo) => ToDoCard(toDo: toDo)).toList(),
+                  children: cars.map((car) => CarCard(car: car)).toList(),
                 ),
               ),
             ),

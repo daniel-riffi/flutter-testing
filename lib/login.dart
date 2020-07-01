@@ -1,15 +1,26 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 class Login extends StatelessWidget {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  void btnLoginClicked(BuildContext context) {
+  void btnLoginClicked(BuildContext context) async {
+
+    List data = await getData();
     String username = usernameController.text.trim();
     String password = passwordController.text.trim();
     if (username == 'Dani' && password == 'mali123') {
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/home', arguments: data);
     }
+  }
+
+  Future<List> getData() async {
+    Response response = await get('http://10.0.0.4:9000/cars');
+    List data = jsonDecode(response.body);
+    return data;
   }
 
   @override
@@ -45,7 +56,7 @@ class Login extends StatelessWidget {
                           controller: usernameController,
                           autofocus: false,
                           style: TextStyle(
-                              fontSize: 22.0, color: Color(0xFFbdc6cf)),
+                              fontSize: 22.0, color: Colors.grey[700]),
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
@@ -71,7 +82,7 @@ class Login extends StatelessWidget {
                           controller: passwordController,
                           autofocus: false,
                           style: TextStyle(
-                              fontSize: 22.0, color: Color(0xFFbdc6cf)),
+                              fontSize: 22.0, color: Colors.grey[700]),
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
@@ -103,7 +114,7 @@ class Login extends StatelessWidget {
                             side: BorderSide(color: Colors.deepPurple)),
                         child: Text("LOGIN",
                             style: TextStyle(
-                                fontSize: 22.0, color: Color(0xFFbdc6cf))),
+                                fontSize: 22.0, color: Colors.grey[700])),
                       )
                     ],
                   ),
